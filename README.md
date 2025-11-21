@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 ﻿# Monitoreo Infantil SIG
 
 Monitorea en tiempo real si un niño permanece dentro del área segura definida por su madre. Si sale del polígono dibujado por ella, la interfaz muestra una alerta visual inmediata.
@@ -44,3 +45,6 @@ Abre la URL indicada (ej. `http://localhost:3000`).
 - `POST /api/posiciones`, `GET /api/posiciones/ultimas/:ninoId`
 
 Consulta los controladores en `backend/src/controllers` y el frontend en `frontend/js/main.js` para personalizar el comportamiento.
+=======
+# monitoreo-infantil-sig
+>>>>>>> 37fad5a0679f537ea5d9ea5461526e7a116c9e61
