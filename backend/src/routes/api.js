@@ -4,10 +4,15 @@ const ninosController = require('../controllers/ninosController');
 const posicionesController = require('../controllers/posicionesController');
 const authController = require('../controllers/authController');
 const areasController = require('../controllers/areasController');
+const notificacionesController = require("../controllers/notificacionesController");
+
 
 const router = express.Router();
 
 router.post('/auth/login', authController.login);
+
+router.post("/suscripcion-push", notificacionesController.guardarSuscripcion);
+router.post("/notificacion-prueba", notificacionesController.enviarPrueba);
 
 router.get('/unidades', unidadesController.listarUnidades);
 router.post('/unidades', unidadesController.crearUnidad);
