@@ -1,6 +1,6 @@
 ﻿-- Database bootstrap
-CREATE DATABASE sig_monitoreo;
-\c sig_monitoreo
+-- CREATE DATABASE sig_monitoreo;
+-- \c sig_monitoreo
 
 -- Enable PostGIS
 CREATE EXTENSION IF NOT EXISTS postgis;
@@ -11,8 +11,10 @@ CREATE TABLE usuario (
     nombre VARCHAR(100) NOT NULL,
     email VARCHAR(150) NOT NULL UNIQUE,
     password_hash VARCHAR(200) NOT NULL,
-    rol VARCHAR(20) NOT NULL CHECK (rol IN ('madre', 'nino'))
+    rol VARCHAR(20) NOT NULL CHECK (rol IN ('madre', 'nino')),
+    push_subscriptions JSONB DEFAULT '[]'
 );
+
 
 -- Base tables
 CREATE TABLE unidad_educativa (
@@ -130,6 +132,8 @@ VALUES (
 INSERT INTO usuario (nombre, email, password_hash, rol)
 VALUES
   ('Madre de Juan', 'madre@gmail.com', '$2b$10$u48DY2un2qUBdgebctc6hOtH3SlLrwTX/A2h7ECumZSjptRfqDKgy', 'madre'),
+  --('Madre de Juan', 'madre@gmail.com', '123456', 'madre'),
+  --('Juanito', 'nino@gmail.com', '$2b$10$eQJhRko6SL.lrS1u63FQOu3NsjlArRW9wYlvjSz6Y55AkIFJAW0eO', 'nino');
   ('Juanito', 'nino@gmail.com', '$2b$10$eQJhRko6SL.lrS1u63FQOu3NsjlArRW9wYlvjSz6Y55AkIFJAW0eO', 'nino');
 
 INSERT INTO nino (nombre, apellidos, observaciones, unidad_id, madre_id)

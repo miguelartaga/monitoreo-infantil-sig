@@ -1,6 +1,13 @@
-﻿const API_BASE = `${window.location.protocol}//${window.location.hostname}:4000/api`;
+﻿//const { log } = require("console");
+
+
+// ==================ANTIGUO=========================
+//const API_BASE = `${window.location.protocol}//${window.location.hostname}:5000/api`;
+const API_BASE = "http://localhost:5000/api";
+
 const CHILD_ID = 1;
 const DEFAULT_CENTER = { lat: -17.78305, lon: -63.18255 };
+const VAPID_PUBLIC_KEY = "BJBWcyM9jEKZvKnIO3Nh3mUIQditqSCNiMSCVpfS-MJjL5Pm1Fk8dS1EzAXOU7fJMLV-jHKDStAArhDAWRkngmY"
 
 let map;
 let drawnItems;
@@ -40,6 +47,9 @@ document.addEventListener('DOMContentLoaded', () => {
   btnDibujarArea.addEventListener('click', iniciarDibujoMadre);
   btnGuardarArea.addEventListener('click', guardarAreaMadre);
   btnEliminarArea.addEventListener('click', eliminarAreaMadre);
+
+  document.getElementById('btn-notificar').addEventListener('click', enviarNotificacionPrueba);
+
   cargarDatosNino();
   cargarUnidades();
 });
@@ -74,6 +84,31 @@ function inicializarMapa() {
   });
 }
 
+async function registrarPush(userId) {
+  // Registrar service worker
+  const registro = await navigator.serviceWorker.register("/service-worker.js");
+
+  const permiso = await Notification.requestPermission();
+  if (permiso !== "granted") {
+    console.log("Permiso de notificaciones denegado");
+    return;
+  }
+
+  const subscription = await registro.pushManager.subscribe({
+    userVisibleOnly: true,
+    applicationServerKey: VAPID_PUBLIC_KEY // esta variable debe venir del backend
+  });
+
+  await fetch(`${API_BASE}/suscripcion-push`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ userId, subscription })
+  });
+
+  console.log("Suscripción guardada correctamente");
+}
+
+
 async function cargarDatosNino() {
   try {
     const resp = await fetch(`${API_BASE}/ninos/${CHILD_ID}`);
@@ -85,6 +120,7 @@ async function cargarDatosNino() {
     console.error(error.message);
   }
 }
+
 
 async function cargarUnidades() {
   try {
@@ -139,6 +175,10 @@ async function iniciarSesion() {
       throw new Error(data.error || 'Credenciales inválidas.');
     }
     currentUser = data;
+
+    registrarPush(currentUser.id);
+    console.log("Push registrado para el usuario:", currentUser);
+
     loginEmail.value = '';
     loginPass.value = '';
     actualizarPaneles();
@@ -403,3 +443,37 @@ async function consultarUltimaPosicion() {
     console.warn(error.message);
   }
 }
+
+async function enviarNotificacionPrueba() {
+  if (!currentUser) {
+    alert("Primero inicia sesión");
+    return;
+  }
+
+  const titulo = "⚠ Alerta del Sistema";
+  const mensaje = "Este es un mensaje predeterminado enviado por el frontend....";
+
+  await fetch(`${API_BASE}/notificacion-prueba`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      userId: currentUser.id,
+      titulo,
+      mensaje
+    })
+  });
+
+
+/*
+  const resp = await fetch(`${API_BASE}/auth/login`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email, password })
+    });
+*/
+
+  alert("Notificación enviada");
+}
+
+
+

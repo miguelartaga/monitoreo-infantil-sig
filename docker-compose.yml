@@ -1,0 +1,62 @@
+version: "3.9"
+
+services:
+  db:
+    image: postgis/postgis:15-3.4
+    container_name: sig_postgis
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 123
+      POSTGRES_DB: sig_monitoreo
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./database/schema.sql:/docker-entrypoint-initdb.d/schema.sql
+    networks:
+      - sig-net
+
+  backend:
+    build: ./backend
+    container_name: sig_backend
+    restart: always
+    depends_on:
+      - db
+    environment:
+      PGHOST: db
+      PGPORT: 5432
+      PGUSER: postgres
+      PGPASSWORD: 123
+      PGDATABASE: sig_monitoreo
+      PORT: 4000
+    ports:
+      - "5000:4000"
+    networks:
+      - sig-net
+
+  frontend:
+    image: node:18
+    container_name: sig_frontend
+    working_dir: /app
+    volumes:
+      - ./frontend:/app
+    command: ["npx", "serve", "-l", "3100", "."]
+    ports:
+      - "3100:3100"
+    networks:
+      - sig-net
+
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - "8080:8080"
+    depends_on:
+      - db
+    networks:
+      - sig-net
+
+volumes:
+  postgres_data:
+
+networks:
+  sig-net:

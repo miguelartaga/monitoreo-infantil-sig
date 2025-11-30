@@ -45,6 +45,72 @@
         <p><strong>Unidad educativa activa:</strong> <span id="unidad-activa">-</span></p>
         <p><strong>Niño monitoreado:</strong> <span id="nino-activo">-</span></p>
       </div>
+
+    </section>
+    <button id="btn-notificar">Enviar Notificación Prueba</button>
+  </div>
+  
+
+  <div id="map"></div>
+
+  <script defer src="vendor/leaflet/leaflet.js"></script>
+  <script defer src="vendor/leaflet-draw/leaflet.draw.js"></script>
+
+  <!-- IMPORTANTE: main.js como módulo -->
+  <script type="module" src="js/main.js"></script>
+
+</body>
+
+</html>
+
+
+<!-- <!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Monitoreo Infantil SIG</title>
+  <link rel="stylesheet" href="vendor/leaflet/leaflet.css" />
+  <link rel="stylesheet" href="vendor/leaflet-draw/leaflet.draw.css">
+  <link rel="stylesheet" href="css/main.css">
+</head>
+
+<body>
+  <div class="sidebar">
+    <h1>Monitoreo Infantil</h1>
+    <p class="descripcion">Inicia sesión como madre o niño para interactuar con el sistema.</p>
+
+    <section class="panel" id="login-panel">
+      <h2>Acceso</h2>
+      <input type="email" id="login-email" placeholder="Correo" autocomplete="username">
+      <input type="password" id="login-pass" placeholder="Contraseña" autocomplete="current-password">
+      <button id="btn-login">Ingresar</button>
+      <p class="hint">Madre: madre@gmail.com / madre<br>Niño: niño@gmail.com / niño</p>
+    </section>
+
+    <section class="panel hidden" id="usuario-panel">
+      <h2 id="usuario-rol"></h2>
+      <p class="usuario-detalle"></p>
+      <button id="btn-logout" class="secundario">Cerrar sesión</button>
+    </section>
+
+    <section class="panel hidden" id="madre-panel">
+      <h3>Área segura definida por la madre</h3>
+      <div class="grupo-botones">
+        <button id="btn-dibujar-area">Dibujar/Editar área</button>
+        <button id="btn-guardar-area" class="secundario">Guardar área</button>
+        <button id="btn-eliminar-area" class="peligro">Eliminar área</button>
+      </div>
+      <p class="nota">Dibuja un polígono sobre el mapa para delimitar el área segura del niño y presiona "Guardar área".</p>
+    </section>
+
+    <section class="panel hidden" id="map-panel">
+      <div id="estado-texto" class="estado estado-pendiente">Inicia sesión para comenzar.</div>
+      <button id="btn-simular">Simular nueva posición</button>
+      <div class="info">
+        <p><strong>Unidad educativa activa:</strong> <span id="unidad-activa">-</span></p>
+        <p><strong>Niño monitoreado:</strong> <span id="nino-activo">-</span></p>
+      </div>
     </section>
   </div>
   <div id="map"></div>
@@ -54,4 +120,4 @@
   <script defer src="js/main.js"></script>
 </body>
 
-</html>
+</html> -->
